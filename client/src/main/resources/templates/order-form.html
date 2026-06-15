@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Order form · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1 th:text="${mode == 'create'} ? 'New order' : 'Edit order #' + ${order.id}">Order</h1>
+    <div class="card">
+        <form th:object="${order}" method="post"
+              th:action="${mode == 'create'} ? @{/orders} : @{/orders/{id}/update(id=${order.id})}">
+            <div class="row">
+                <div><label>Number</label><input type="text" th:field="*{number}"/></div>
+                <div><label>Status</label>
+                    <select th:field="*{status}">
+                        <option th:each="s : ${ {'pending','processing','on-hold','completed','cancelled','refunded','failed'} }"
+                                th:value="${s}" th:text="${s}"></option>
+                    </select>
+                </div>
+                <div><label>Currency</label><input type="text" th:field="*{currency}" placeholder="EUR"/></div>
+                <div><label>Total</label><input type="number" step="0.01" th:field="*{total}"/></div>
+            </div>
+            <label>Customer note</label>
+            <input type="text" th:field="*{customerNote}"/>
+
+            <h2 style="margin-top:18px">Billing</h2>
+            <div class="row">
+                <div><label>First name</label><input type="text" th:field="*{billing.firstName}"/></div>
+                <div><label>Last name</label><input type="text" th:field="*{billing.lastName}"/></div>
+                <div><label>Email</label><input type="text" th:field="*{billing.email}"/></div>
+            </div>
+            <div class="row">
+                <div><label>Phone</label><input type="text" th:field="*{billing.phone}"/></div>
+                <div><label>City</label><input type="text" th:field="*{billing.city}"/></div>
+                <div><label>Country</label><input type="text" th:field="*{billing.country}" placeholder="HR"/></div>
+            </div>
+
+            <h2 style="margin-top:18px">Line item</h2>
+            <div class="row">
+                <div><label>Product ID</label><input type="number" th:field="*{lineItems[0].productId}"/></div>
+                <div><label>Name</label><input type="text" th:field="*{lineItems[0].name}"/></div>
+                <div><label>Qty</label><input type="number" th:field="*{lineItems[0].quantity}"/></div>
+                <div><label>Price</label><input type="number" step="0.01" th:field="*{lineItems[0].price}"/></div>
+                <div><label>Subtotal</label><input type="number" step="0.01" th:field="*{lineItems[0].subtotal}"/></div>
+            </div>
+
+            <br/>
+            <button class="btn" type="submit">Save</button>
+            <a class="btn secondary" th:href="@{/orders}">Cancel</a>
+        </form>
+    </div>
+</main>
+</body>
+</html>

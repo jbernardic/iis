@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Weather · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>Weather by city <span class="muted">(Part 4 — gRPC + DHMZ)</span></h1>
+    <div class="card">
+        <form th:action="@{/weather}" method="post">
+            <label>City name or part of it</label>
+            <input type="text" name="query" th:value="${query}" placeholder="e.g. zag, split, osij"/>
+            <br/><br/>
+            <button class="btn" type="submit">Get temperature</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="alert bad" th:text="${error}"></div>
+
+    <div th:if="${rows != null}" class="card">
+        <p class="muted">Measured at: <span th:text="${measuredAt}"></span> ·
+            <span th:text="${rows.size()}">0</span> station(s)</p>
+        <table th:if="${!rows.isEmpty()}">
+            <thead><tr><th>City</th><th>Temp °C</th><th>Humidity %</th><th>Pressure</th><th>Wind</th><th>Weather</th></tr></thead>
+            <tbody>
+            <tr th:each="r : ${rows}">
+                <td th:text="${r.city}"></td>
+                <td th:text="${r.temperature}"></td>
+                <td th:text="${r.humidity}"></td>
+                <td th:text="${r.pressure}"></td>
+                <td th:text="${r.wind}"></td>
+                <td th:text="${r.weather}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${rows.isEmpty()}" class="muted">No matching city.</p>
+    </div>
+</main>
+</body>
+</html>

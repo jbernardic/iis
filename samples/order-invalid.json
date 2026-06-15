@@ -1,0 +1,13 @@
+{
+  "number": "3002",
+  "status": "shipped",
+  "currency": "usd",
+  "total": -10,
+  "billing": {
+    "firstName": "Petra",
+    "email": "petra(at)example.com",
+    "city": "Rijeka",
+    "country": "HRV"
+  },
+  "unexpected": true
+}

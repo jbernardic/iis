@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/iis/order-schema.json",
+  "title": "Order",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["number", "status", "currency", "total", "billing"],
+  "properties": {
+    "id": { "type": ["integer", "null"] },
+    "number": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "processing", "on-hold", "completed", "cancelled", "refunded", "failed"]
+    },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "total": { "type": "number", "minimum": 0 },
+    "customerNote": { "type": "string" },
+    "dateCreated": { "type": "string" },
+    "billing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["firstName", "lastName", "email", "city", "country"],
+      "properties": {
+        "firstName": { "type": "string", "minLength": 1 },
+        "lastName": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+        "phone": { "type": "string" },
+        "city": { "type": "string", "minLength": 1 },
+        "country": { "type": "string", "pattern": "^[A-Z]{2}$" }
+      }
+    },
+    "lineItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["productId", "name", "quantity", "price", "subtotal"],
+        "properties": {
+          "productId": { "type": "integer" },
+          "name": { "type": "string", "minLength": 1 },
+          "quantity": { "type": "integer", "minimum": 1 },
+          "price": { "type": "number", "minimum": 0 },
+          "subtotal": { "type": "number", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Login · IIS')}"></head>
+<body>
+<div class="login-box card">
+    <h1>Sign in</h1>
+    <div th:if="${param.error}" class="alert bad">Invalid username or password.</div>
+    <div th:if="${param.logout}" class="alert ok">You have been logged out.</div>
+    <form th:action="@{/login}" method="post">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autofocus required/>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required/>
+        <br/><br/>
+        <button class="btn" type="submit">Log in</button>
+    </form>
+    <p class="muted" style="margin-top:18px">
+        Demo users:<br/>
+        <code>admin / admin123</code> — full access<br/>
+        <code>reader / reader123</code> — read-only
+    </p>
+</div>
+</body>
+</html>

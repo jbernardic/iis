@@ -1,0 +1,19 @@
+{
+  "number": "3001",
+  "status": "completed",
+  "currency": "USD",
+  "total": 199.0,
+  "customerNote": "Gift wrap please",
+  "dateCreated": "2026-06-11T09:00:00",
+  "billing": {
+    "firstName": "Marko",
+    "lastName": "Maric",
+    "email": "marko.maric@example.com",
+    "phone": "+385991112233",
+    "city": "Osijek",
+    "country": "HR"
+  },
+  "lineItems": [
+    { "productId": 77, "name": "Wireless Mouse", "quantity": 1, "price": 199.0, "subtotal": 199.0 }
+  ]
+}

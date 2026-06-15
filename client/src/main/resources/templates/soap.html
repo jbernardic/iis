@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('SOAP search · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>SOAP order search <span class="muted">(Part 2 — XPath over generated XML)</span></h1>
+    <div class="card">
+        <form th:action="@{/soap}" method="post">
+            <label>Search term (matches number, status, customer, email, city, product)</label>
+            <input type="text" name="term" th:value="${term}" placeholder="e.g. zagreb, split, completed"/>
+            <br/><br/>
+            <button class="btn" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="alert bad" th:text="${error}"></div>
+
+    <div th:if="${results != null}" class="card">
+        <h2>Matches: <span th:text="${results.size()}">0</span></h2>
+        <table th:if="${!results.isEmpty()}">
+            <thead><tr><th>Number</th><th>Status</th><th>Total</th><th>Customer</th><th>Email</th><th>City</th></tr></thead>
+            <tbody>
+            <tr th:each="r : ${results}">
+                <td th:text="${r.number}"></td>
+                <td th:text="${r.status}"></td>
+                <td th:text="${r.currency} + ' ' + ${r.total}"></td>
+                <td th:text="${r.customerName}"></td>
+                <td th:text="${r.email}"></td>
+                <td th:text="${r.city}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${results.isEmpty()}" class="muted">No orders matched.</p>
+    </div>
+</main>
+</body>
+</html>

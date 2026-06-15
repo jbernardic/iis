@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('GraphQL · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>GraphQL <span class="muted">(Part 5)</span></h1>
+    <div class="card">
+        <form method="post">
+            <label>Query / mutation</label>
+            <textarea name="query" th:text="${query}"></textarea>
+            <br/>
+            <button class="btn" type="submit" th:formaction="@{/graphql/run}">Run query</button>
+            <button sec:authorize="hasRole('FULL')" class="btn secondary" type="submit"
+                    th:formaction="@{/graphql/mutate}">Run mutation</button>
+        </form>
+        <p class="muted" style="margin-top:10px">
+            Example mutation (full access):
+            <code>mutation { deleteOrder(id: 3) }</code></p>
+    </div>
+
+    <div th:if="${error}" class="alert bad" th:text="${error}"></div>
+
+    <div th:if="${result}" class="card">
+        <h2>Response</h2>
+        <pre th:text="${result}">{}</pre>
+    </div>
+</main>
+</body>
+</html>

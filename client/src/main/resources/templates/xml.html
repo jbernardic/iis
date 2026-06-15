@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('XML validation · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>Prepared XML validation <span class="muted">(Part 3 — Jakarta XML / XSD)</span></h1>
+    <div class="card">
+        <p class="muted">Regenerates the <code>&lt;orders&gt;</code> file from current data and validates
+            it against <code>order.xsd</code>.</p>
+        <form th:action="@{/xml/validate}" method="post">
+            <button class="btn" type="submit">Generate &amp; validate</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="alert bad" th:text="${error}"></div>
+
+    <div th:if="${validation != null}" class="card">
+        <p>
+            <span th:if="${validation.valid}" class="badge ok">VALID against schema</span>
+            <span th:unless="${validation.valid}" class="badge bad">INVALID</span>
+        </p>
+        <ul class="errors" th:unless="${validation.valid}">
+            <li th:each="m : ${validation.messages}" th:text="${m}">message</li>
+        </ul>
+        <h2>Generated XML</h2>
+        <pre th:text="${xml}">&lt;orders/&gt;</pre>
+    </div>
+</main>
+</body>
+</html>

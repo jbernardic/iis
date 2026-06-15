@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- ====== reusable simple types ====== -->
+    <xs:simpleType name="CurrencyType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="pending"/>
+            <xs:enumeration value="processing"/>
+            <xs:enumeration value="on-hold"/>
+            <xs:enumeration value="completed"/>
+            <xs:enumeration value="cancelled"/>
+            <xs:enumeration value="refunded"/>
+            <xs:enumeration value="failed"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EmailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^@\s]+@[^@\s]+\.[^@\s]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CountryType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="NonNegativeDecimal">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PositiveInt">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ====== complex types ====== -->
+    <xs:complexType name="BillingType">
+        <xs:sequence>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="email" type="EmailType"/>
+            <xs:element name="phone" type="xs:string" minOccurs="0"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="country" type="CountryType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LineItemType">
+        <xs:sequence>
+            <xs:element name="productId" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="quantity" type="PositiveInt"/>
+            <xs:element name="price" type="NonNegativeDecimal"/>
+            <xs:element name="subtotal" type="NonNegativeDecimal"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LineItemsType">
+        <xs:sequence>
+            <xs:element name="lineItem" type="LineItemType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OrderType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="number" type="xs:string"/>
+            <xs:element name="status" type="StatusType"/>
+            <xs:element name="currency" type="CurrencyType"/>
+            <xs:element name="total" type="NonNegativeDecimal"/>
+            <xs:element name="customerNote" type="xs:string" minOccurs="0"/>
+            <xs:element name="dateCreated" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="billing" type="BillingType"/>
+            <xs:element name="lineItems" type="LineItemsType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====== root elements ====== -->
+    <!-- A single order (used by the Part 1 import). -->
+    <xs:element name="order" type="OrderType"/>
+
+    <!-- A collection of orders (the prepared file used by Parts 2 & 3). -->
+    <xs:element name="orders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="order" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

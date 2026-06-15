@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${title}">IIS</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+<nav th:fragment="nav" class="nav">
+    <a class="brand" th:href="@{/}">IIS · WooCommerce Orders</a>
+    <a th:href="@{/orders}">Orders</a>
+    <a sec:authorize="hasRole('FULL')" th:href="@{/import}">Import (1)</a>
+    <a th:href="@{/soap}">SOAP (2)</a>
+    <a th:href="@{/xml}">XML&nbsp;Validate (3)</a>
+    <a th:href="@{/weather}">Weather (4)</a>
+    <a th:href="@{/graphql}">GraphQL (5)</a>
+    <span class="spacer"></span>
+    <span class="user" th:if="${currentUser}">
+        <span th:text="${currentUser}">user</span>
+        <span class="role" th:text="${currentRole}">ROLE</span>
+    </span>
+    <form th:action="@{/logout}" method="post" style="display:inline;margin:0">
+        <button class="link" type="submit">Logout</button>
+    </form>
+</nav>
+</body>
+</html>

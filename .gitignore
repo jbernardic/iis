@@ -1,0 +1,52 @@
+HELP.md
+
+### Maven ###
+target/
+
+### Gradle (legacy) ###
+.gradle
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### IIS project runtime artifacts ###
+# detached run logs / pids from local launches
+**/run.log
+**/run.err
+**/run.pid
+# prepared XML file generated at runtime (Parts 2 & 3)
+data/
+# H2 file db (if switched from in-memory)
+*.mv.db
+*.trace.db

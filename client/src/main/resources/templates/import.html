@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Import · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>Import order <span class="muted">(Part 1 — XSD + JSON Schema validation)</span></h1>
+    <div class="card">
+        <p class="muted">Upload an XML file (validated against <code>order.xsd</code>) and/or a JSON
+            file (validated against <code>order-schema.json</code>). Valid documents are stored; invalid
+            ones return their validation errors.</p>
+        <form th:action="@{/import}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div><label>XML file</label><input type="file" name="xml" accept=".xml"/></div>
+                <div><label>JSON file</label><input type="file" name="json" accept=".json"/></div>
+            </div>
+            <br/>
+            <button class="btn" type="submit">Validate &amp; import</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="alert bad" th:text="${error}"></div>
+
+    <div th:if="${result}" class="card">
+        <h2>Result</h2>
+        <div th:each="part : ${ {result.xml, result.json} }" th:if="${part != null}" style="margin-bottom:14px">
+            <p>
+                <strong th:text="${part.format} + ' file'">xml file</strong>:
+                <span th:if="${part.valid}" class="badge ok">VALID — saved order #<span th:text="${part.savedOrderId}">0</span></span>
+                <span th:unless="${part.valid}" class="badge bad">INVALID</span>
+            </p>
+            <ul class="errors" th:unless="${part.valid}">
+                <li th:each="e : ${part.errors}" th:text="${e}">error</li>
+            </ul>
+        </div>
+    </div>
+</main>
+</body>
+</html>

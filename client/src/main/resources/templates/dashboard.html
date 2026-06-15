@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Dashboard · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>WooCommerce Orders — service console</h1>
+    <div class="card">
+        <p>Signed in as <strong th:text="${currentUser}">user</strong>
+            (<span th:text="${currentRole}">ROLE</span>).</p>
+        <p class="muted">Active backend order source:
+            <strong th:text="${activeSource}">custom</strong></p>
+        <p sec:authorize="hasRole('READ')" class="muted">
+            Read-only role: you can call GET-style operations only. Write actions are hidden/blocked.</p>
+    </div>
+
+    <div class="card">
+        <h2>Available services</h2>
+        <table>
+            <tr><th>#</th><th>Functionality</th><th>Tech</th><th></th></tr>
+            <tr><td>1</td><td>Import order (XSD + JSON Schema validation)</td><td>REST multipart</td>
+                <td sec:authorize="hasRole('FULL')"><a class="btn small" th:href="@{/import}">Open</a></td>
+                <td sec:authorize="!hasRole('FULL')" class="muted">full access only</td></tr>
+            <tr><td>2</td><td>Search orders by term (XPath on generated XML)</td><td>SOAP</td>
+                <td><a class="btn small" th:href="@{/soap}">Open</a></td></tr>
+            <tr><td>3</td><td>Validate prepared XML (Jakarta XML / XSD)</td><td>REST</td>
+                <td><a class="btn small" th:href="@{/xml}">Open</a></td></tr>
+            <tr><td>4</td><td>Current temperature by city (DHMZ)</td><td>gRPC</td>
+                <td><a class="btn small" th:href="@{/weather}">Open</a></td></tr>
+            <tr><td>5</td><td>Orders CRUD with JWT + GraphQL</td><td>REST / GraphQL</td>
+                <td><a class="btn small" th:href="@{/orders}">Orders</a>
+                    <a class="btn small secondary" th:href="@{/graphql}">GraphQL</a></td></tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

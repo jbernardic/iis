@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Orders · IIS')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>Orders <span class="muted">(custom REST API, Part 5)</span></h1>
+    <p sec:authorize="hasRole('FULL')">
+        <a class="btn" th:href="@{/orders/new}">+ New order</a>
+    </p>
+    <div class="card">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th><th>Number</th><th>Status</th><th>Currency</th><th>Total</th>
+                <th>Customer</th><th>City</th><th>Items</th><th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${orders}">
+                <td th:text="${o.id}">1</td>
+                <td th:text="${o.number}">1001</td>
+                <td th:text="${o.status}">processing</td>
+                <td th:text="${o.currency}">EUR</td>
+                <td th:text="${o.total}">0</td>
+                <td th:text="${o.billing != null ? o.billing.firstName + ' ' + o.billing.lastName : ''}">Ivan Horvat</td>
+                <td th:text="${o.billing != null ? o.billing.city : ''}">Zagreb</td>
+                <td th:text="${o.lineItems != null ? o.lineItems.size() : 0}">1</td>
+                <td sec:authorize="hasRole('FULL')">
+                    <a class="btn small secondary" th:href="@{/orders/{id}/edit(id=${o.id})}">Edit</a>
+                    <form th:action="@{/orders/{id}/delete(id=${o.id})}" method="post" style="display:inline">
+                        <button class="btn small danger" type="submit"
+                                onclick="return confirm('Delete this order?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${orders == null or orders.isEmpty()}">
+                <td colspan="9" class="muted">No orders.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

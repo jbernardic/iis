@@ -1,0 +1,73 @@
+# GraphQL schema for the custom orders API (Part 5).
+
+type Query {
+    "All orders from the active source."
+    orders: [Order!]!
+    "A single order by id, or null if not found."
+    order(id: ID!): Order
+    "Name of the active order source (custom vs woocommerce)."
+    activeSource: String!
+}
+
+type Mutation {
+    createOrder(input: OrderInput!): Order!
+    updateOrder(id: ID!, input: OrderInput!): Order
+    deleteOrder(id: ID!): Boolean!
+}
+
+type Order {
+    id: ID
+    number: String
+    status: String
+    currency: String
+    total: Float
+    customerNote: String
+    dateCreated: String
+    billing: Billing
+    lineItems: [LineItem!]!
+}
+
+type Billing {
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    city: String
+    country: String
+}
+
+type LineItem {
+    productId: Int
+    name: String
+    quantity: Int
+    price: Float
+    subtotal: Float
+}
+
+input OrderInput {
+    number: String!
+    status: String!
+    currency: String!
+    total: Float!
+    customerNote: String
+    dateCreated: String
+    billing: BillingInput!
+    lineItems: [LineItemInput!]
+}
+
+input BillingInput {
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    city: String
+    country: String
+}
+
+input LineItemInput {
+    productId: Int
+    name: String!
+    quantity: Int!
+    price: Float!
+    subtotal: Float!
+}

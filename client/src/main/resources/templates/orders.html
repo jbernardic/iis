@@ -5,7 +5,7 @@
 <body>
 <nav th:replace="~{fragments :: nav}"></nav>
 <main class="container">
-    <h1>Orders <span class="muted">(custom REST API, Part 5)</span></h1>
+    <h1>Orders</h1>
     <p sec:authorize="hasRole('FULL')">
         <a class="btn" th:href="@{/orders/new}">+ New order</a>
     </p>

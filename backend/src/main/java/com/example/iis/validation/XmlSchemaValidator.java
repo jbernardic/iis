@@ -21,11 +21,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Validates order documents against {@code schema/order.xsd} using the Jakarta
- * XML validation API ({@code javax.xml.validation}). Used by Part 1 (single
- * {@code <order>}) and Part 3 (the prepared {@code <orders>} file).
- */
 @Component
 public class XmlSchemaValidator {
 
@@ -34,7 +29,6 @@ public class XmlSchemaValidator {
     @PostConstruct
     void init() throws Exception {
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        // Harden against XXE while loading the schema itself.
         trySetProperty(factory, XMLConstants.ACCESS_EXTERNAL_DTD, "");
         trySetProperty(factory, XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
         try (InputStream xsd = new ClassPathResource("schema/order.xsd").getInputStream()) {
@@ -42,12 +36,10 @@ public class XmlSchemaValidator {
         }
     }
 
-    /** Validates raw XML bytes; returns the list of validation problems (empty = valid). */
     public List<String> validate(byte[] xml) {
         return validate(new StreamSource(new ByteArrayInputStream(xml)));
     }
 
-    /** Validates an XML file on disk (used by Part 3). */
     public List<String> validate(Path path) throws IOException {
         try (InputStream in = Files.newInputStream(path)) {
             return validate(new StreamSource(in));
@@ -74,7 +66,6 @@ public class XmlSchemaValidator {
         try {
             factory.setProperty(name, value);
         } catch (Exception ignored) {
-            // property not supported by this implementation
         }
     }
 
@@ -82,7 +73,6 @@ public class XmlSchemaValidator {
         try {
             validator.setProperty(name, value);
         } catch (Exception ignored) {
-            // property not supported by this implementation
         }
     }
 

@@ -17,10 +17,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-/**
- * Part 1: validates an uploaded XML/JSON order against the XSD / JSON Schema
- * and, only when valid, persists it to the application database.
- */
 @Service
 public class OrderImportService {
 

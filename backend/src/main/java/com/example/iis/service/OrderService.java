@@ -7,11 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Thin facade the REST controller and GraphQL controller use. It always talks
- * to whichever {@link OrderSource} the {@code app.order-source} switch selected,
- * so the public/custom toggle is transparent to callers.
- */
 @Service
 public class OrderService {
 

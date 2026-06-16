@@ -6,10 +6,6 @@ import jakarta.xml.bind.annotation.XmlType;
 
 import java.math.BigDecimal;
 
-/**
- * One product line shared by the XML (JAXB) and JSON (Jackson) representations
- * of an order.
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"productId", "name", "quantity", "price", "subtotal"})
 public class LineItemDto {

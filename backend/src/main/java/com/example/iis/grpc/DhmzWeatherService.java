@@ -19,12 +19,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Fetches and parses the DHMZ observations feed
- * (<a href="https://vrijeme.hr/hrvatska_n.xml">hrvatska_n.xml</a>) for Part 4.
- * Results are cached for a few minutes so repeated gRPC calls do not hammer the
- * upstream service.
- */
 @Service
 public class DhmzWeatherService {
 
@@ -115,12 +109,10 @@ public class DhmzWeatherService {
         return null;
     }
 
-    /** One DHMZ station/city reading. */
     public record City(String name, String temperature, String humidity, String pressure,
                        String windDirection, String windSpeed, String weather) {
     }
 
-    /** A parsed feed plus the time it was fetched (for cache expiry). */
     public record Snapshot(String measuredAt, List<City> cities, Instant fetchedAt) {
     }
 }

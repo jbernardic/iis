@@ -4,9 +4,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-/**
- * SOAP request payload (Part 2): the term to search orders by.
- */
 @XmlRootElement(name = "SearchOrdersRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchOrdersRequest {

@@ -2,7 +2,6 @@ package com.example.client.model;
 
 import java.math.BigDecimal;
 
-/** Client-side line item model (display + form binding). */
 public class LineItemView {
 
     private Long productId;

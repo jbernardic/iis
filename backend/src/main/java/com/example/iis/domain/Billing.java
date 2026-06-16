@@ -2,10 +2,6 @@ package com.example.iis.domain;
 
 import jakarta.persistence.Embeddable;
 
-/**
- * Billing details embedded in an {@link OrderEntity}, mirroring the WooCommerce
- * order "billing" object.
- */
 @Embeddable
 public class Billing {
 

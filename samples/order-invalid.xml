@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Violations: status not in enum, currency not [A-Z]{3}, negative total,
-     malformed email, country not [A-Z]{2}. -->
 <order>
     <number>2002</number>
     <status>shipped</status>

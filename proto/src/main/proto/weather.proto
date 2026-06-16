@@ -6,31 +6,25 @@ option java_outer_classname = "WeatherProto";
 
 package weather;
 
-// Weather lookup backed by DHMZ (https://vrijeme.hr/hrvatska_n.xml).
 service WeatherService {
-  // Returns the current temperature for every city whose name contains the
-  // given (case-insensitive) query string. If several cities match, all of
-  // them are returned.
   rpc GetTemperature (TemperatureRequest) returns (TemperatureReply);
 }
 
 message TemperatureRequest {
-  // City name or part of a city name (e.g. "zag", "split", "osij").
   string query = 1;
 }
 
 message TemperatureReply {
   repeated CityWeather results = 1;
-  // Timestamp of the DHMZ measurement (date + term/hour).
   string measured_at = 2;
 }
 
 message CityWeather {
-  string city = 1;          // GradIme
-  string temperature = 2;   // Temp (°C)
-  string humidity = 3;      // Vlaga (%)
-  string pressure = 4;      // Tlak (hPa)
-  string wind_direction = 5; // VjetarSmjer
-  string wind_speed = 6;    // VjetarBrzina (m/s)
-  string weather = 7;       // Vrijeme (textual description)
+  string city = 1;
+  string temperature = 2;
+  string humidity = 3;
+  string pressure = 4;
+  string wind_direction = 5;
+  string wind_speed = 6;
+  string weather = 7;
 }

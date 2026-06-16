@@ -10,9 +10,6 @@ import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 
-/**
- * A single product line in an order (WooCommerce "line_items").
- */
 @Entity
 @Table(name = "line_items")
 public class LineItemEntity {

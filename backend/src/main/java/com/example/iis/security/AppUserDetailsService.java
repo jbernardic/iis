@@ -7,11 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * Loads {@link com.example.iis.domain.UserAccount}s for authentication, mapping
- * the stored role ({@code FULL}/{@code READ}) to a Spring Security authority
- * ({@code ROLE_FULL}/{@code ROLE_READ}).
- */
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 

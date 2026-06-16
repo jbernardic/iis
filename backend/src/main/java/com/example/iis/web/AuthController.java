@@ -22,11 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * Part 5 authentication endpoints. {@code /login} verifies credentials and
- * returns an access + refresh JWT pair; {@code /refresh} exchanges a valid
- * refresh token for a fresh pair.
- */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

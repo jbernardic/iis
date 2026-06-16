@@ -8,11 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 
-/**
- * Starts and stops the embedded gRPC server alongside the Spring context
- * (Part 4). Running the server manually (rather than via a starter) keeps it
- * independent of the Spring Boot version.
- */
 @Component
 public class GrpcServer implements SmartLifecycle {
 

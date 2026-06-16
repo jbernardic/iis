@@ -9,9 +9,6 @@ import jakarta.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SOAP response payload (Part 2): the orders matching the search term.
- */
 @XmlRootElement(name = "SearchOrdersResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"order", "matchCount"})

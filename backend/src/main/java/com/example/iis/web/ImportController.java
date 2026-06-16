@@ -15,15 +15,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Part 1 REST interface. Accepts an XML and/or a JSON order file by POST,
- * validates each against its schema (XSD / JSON Schema) and persists the valid
- * ones. The response reports per-file validation errors and the stored ids.
- *
- * <pre>
- * POST /api/import/orders   (multipart/form-data: xml=&lt;file&gt;, json=&lt;file&gt;)
- * </pre>
- */
 @RestController
 @RequestMapping("/api/import")
 public class ImportController {

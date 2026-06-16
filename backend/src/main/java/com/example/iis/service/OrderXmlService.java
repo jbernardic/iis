@@ -14,12 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-/**
- * Builds the prepared {@code <orders>} XML file from the data returned by the
- * active order source (i.e. the same data a REST GET would return). The file is
- * the input for the SOAP/XPath search (Part 2) and the Jakarta XML validation
- * (Part 3).
- */
 @Service
 public class OrderXmlService {
 
@@ -40,7 +34,6 @@ public class OrderXmlService {
         }
     }
 
-    /** Generates the prepared XML file from the current orders and returns its path. */
     public synchronized Path generateOrdersFile() {
         List<OrderDto> orders = orderService.findAll();
         OrdersDto wrapper = new OrdersDto(orders);
@@ -61,7 +54,6 @@ public class OrderXmlService {
         }
     }
 
-    /** Returns the prepared file content as a string (regenerating it first). */
     public String generateOrdersXml() {
         Path path = generateOrdersFile();
         try {
@@ -71,11 +63,6 @@ public class OrderXmlService {
         }
     }
 
-    /**
-     * Part 3: regenerates the prepared file and validates it against the XSD
-     * using Jakarta XML validation; returns the validation messages (empty when
-     * the file is valid).
-     */
     public List<String> validateGeneratedFile() {
         Path path = generateOrdersFile();
         try {

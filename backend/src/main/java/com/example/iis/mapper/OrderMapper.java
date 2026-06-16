@@ -12,14 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Converts between {@link OrderEntity} (persistence) and {@link OrderDto}
- * (XML/JSON/REST/GraphQL transport).
- */
 public final class OrderMapper {
 
-    // Always emits seconds (no fractional part) so the output is a valid
-    // xs:dateTime that the XSD in Part 3 accepts.
     private static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private OrderMapper() {
@@ -67,7 +61,6 @@ public final class OrderMapper {
         return e;
     }
 
-    /** Copies all mutable fields from the DTO onto an existing entity. */
     public static void applyToEntity(OrderDto dto, OrderEntity e) {
         applyScalars(dto, e);
     }
@@ -111,11 +104,8 @@ public final class OrderMapper {
             return LocalDateTime.now();
         }
         try {
-            // ISO_LOCAL_DATE_TIME accepts "2026-06-15T10:30:00" (with or without
-            // fractional seconds), which is what both the samples and the XSD use.
             return LocalDateTime.parse(value);
         } catch (Exception ex) {
-            // Tolerate a date-only value such as "2026-06-15".
             return LocalDateTime.parse(value + "T00:00:00");
         }
     }

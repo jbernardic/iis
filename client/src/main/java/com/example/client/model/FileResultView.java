@@ -3,7 +3,6 @@ package com.example.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Per-file validation/import result (Part 1). */
 public class FileResultView {
 
     private String format;

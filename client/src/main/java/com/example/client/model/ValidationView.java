@@ -3,7 +3,6 @@ package com.example.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Backend /api/xml/validate response (Part 3). */
 public class ValidationView {
 
     private boolean valid;

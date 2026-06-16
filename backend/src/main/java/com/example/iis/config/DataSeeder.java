@@ -13,10 +13,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Seeds two users (full-access + read-only) and a handful of sample orders on
- * first start so every part of the project has data to work with.
- */
 @Component
 public class DataSeeder implements CommandLineRunner {
 

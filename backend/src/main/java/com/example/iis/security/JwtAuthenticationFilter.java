@@ -17,11 +17,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Reads a {@code Authorization: Bearer <token>} header, validates the access
- * token and, on success, populates the {@link SecurityContextHolder} with the
- * user's role authority.
- */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -54,8 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (Exception ex) {
-                // Invalid/expired token: leave the context unauthenticated so the
-                // security layer returns 401/403 as appropriate.
                 SecurityContextHolder.clearContext();
             }
         }

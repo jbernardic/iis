@@ -12,10 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-/**
- * Part 6 screens that drive Parts 1–5 services: import (1), SOAP search (2),
- * XML validation (3), weather over gRPC (4) and GraphQL (5).
- */
 @Controller
 public class ServicesController {
 
@@ -27,7 +23,6 @@ public class ServicesController {
         this.weather = weather;
     }
 
-    // ---- Part 1: import ----
     @GetMapping("/import")
     public String importForm() {
         return "import";
@@ -50,7 +45,6 @@ public class ServicesController {
         return "import";
     }
 
-    // ---- Part 2: SOAP search ----
     @GetMapping("/soap")
     public String soapPage() {
         return "soap";
@@ -67,7 +61,6 @@ public class ServicesController {
         return "soap";
     }
 
-    // ---- Part 3: XML validation ----
     @GetMapping("/xml")
     public String xmlPage() {
         return "xml";
@@ -84,7 +77,6 @@ public class ServicesController {
         return "xml";
     }
 
-    // ---- Part 4: weather (gRPC) ----
     @GetMapping("/weather")
     public String weatherPage() {
         return "weather";
@@ -103,7 +95,6 @@ public class ServicesController {
         return "weather";
     }
 
-    // ---- Part 5: GraphQL ----
     @GetMapping("/graphql")
     public String graphqlPage(Model model) {
         if (!model.containsAttribute("query")) {

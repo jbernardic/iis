@@ -9,10 +9,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Pure unit tests for the Part 1 validators — no Spring context, so they are
- * fast and do not bind any ports.
- */
 class SchemaValidationTest {
 
     private static XmlSchemaValidator xml;
@@ -75,8 +71,6 @@ class SchemaValidationTest {
     @Test
     void invalidJsonReportsErrors() {
         List<String> errors = json.validate(INVALID_JSON.getBytes(StandardCharsets.UTF_8));
-        // status enum, currency pattern, negative total, missing lastName,
-        // email pattern, country pattern, additionalProperties -> several errors
         assertThat(errors).isNotEmpty();
         assertThat(errors.size()).isGreaterThanOrEqualTo(5);
     }

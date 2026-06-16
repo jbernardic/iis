@@ -24,11 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Talks to the backend over HTTP on the user's behalf: the custom REST API
- * (with the session JWT), Part 1 import (multipart), the SOAP service (Part 2),
- * the XML validation (Part 3) and GraphQL (Part 5).
- */
 @Service
 public class BackendClient {
 
@@ -46,8 +41,6 @@ public class BackendClient {
         return "Bearer " + session.getAccessToken();
     }
 
-    // --- auth ------------------------------------------------------------
-
     public TokenResponse login(String username, String password) {
         return rest.post()
                 .uri("/api/auth/login")
@@ -56,8 +49,6 @@ public class BackendClient {
                 .retrieve()
                 .body(TokenResponse.class);
     }
-
-    // --- custom REST CRUD (Part 5) --------------------------------------
 
     public List<OrderView> listOrders() {
         OrderView[] arr = rest.get()
@@ -113,8 +104,6 @@ public class BackendClient {
         return body == null ? "?" : String.valueOf(body.get("source"));
     }
 
-    // --- Part 1 import (multipart) --------------------------------------
-
     public ImportResponseView importOrders(byte[] xml, String xmlName, byte[] json, String jsonName) {
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         if (xml != null && xml.length > 0) {
@@ -128,7 +117,6 @@ public class BackendClient {
                 .header("Authorization", bearer())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(builder.build())
-                // read the body even on 422 (validation failures)
                 .exchange((request, response) -> response.bodyTo(ImportResponseView.class));
     }
 
@@ -140,8 +128,6 @@ public class BackendClient {
             }
         };
     }
-
-    // --- Part 2 SOAP search ---------------------------------------------
 
     public List<SoapOrderView> soapSearch(String term) throws Exception {
         String envelope = """
@@ -199,8 +185,6 @@ public class BackendClient {
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
 
-    // --- Part 3 XML validation ------------------------------------------
-
     public ValidationView validateXml() {
         return rest.get()
                 .uri("/api/xml/validate")
@@ -216,8 +200,6 @@ public class BackendClient {
                 .retrieve()
                 .body(String.class);
     }
-
-    // --- Part 5 GraphQL --------------------------------------------------
 
     public String graphql(String query) {
         return rest.post()

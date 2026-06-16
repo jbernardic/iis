@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Client-side order model used for display, REST (de)serialization and form binding. */
 public class OrderView {
 
     private Long id;

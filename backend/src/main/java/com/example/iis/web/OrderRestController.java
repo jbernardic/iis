@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Part 5: the custom REST API for orders. Provides all four CRUD endpoints
- * backed by whichever order source the {@code app.order-source} switch selects.
- * Method-level authorization (GET = read-only or full, writes = full only) is
- * enforced in {@link com.example.iis.config.SecurityConfig}.
- */
 @RestController
 @RequestMapping("/api/orders")
 public class OrderRestController {

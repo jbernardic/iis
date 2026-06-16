@@ -4,9 +4,6 @@ import com.example.client.session.UserSession;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-/**
- * Exposes the logged-in user's name and role to every view (for the nav bar).
- */
 @ControllerAdvice
 public class GlobalModelAdvice {
 

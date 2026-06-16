@@ -4,7 +4,6 @@
            targetNamespace="http://example.com/iis/orders-soap"
            elementFormDefault="qualified">
 
-    <!-- Input: the search term used to filter orders via XPath. -->
     <xs:element name="SearchOrdersRequest">
         <xs:complexType>
             <xs:sequence>
@@ -13,7 +12,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Output: every order matching the term. -->
     <xs:element name="SearchOrdersResponse">
         <xs:complexType>
             <xs:sequence>

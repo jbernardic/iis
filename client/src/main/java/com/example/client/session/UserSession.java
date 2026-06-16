@@ -5,11 +5,6 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
 
-/**
- * Per-user session state: the JWT pair obtained from the backend at login and
- * the user's role. {@link com.example.client.service.BackendClient} reads the
- * access token from here to authorize its calls.
- */
 @Component
 @SessionScope
 public class UserSession implements Serializable {

@@ -2,9 +2,6 @@ package com.example.client.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Where the backend lives (REST/SOAP/GraphQL over HTTP, and the gRPC channel).
- */
 @ConfigurationProperties(prefix = "backend")
 public class ClientProperties {
 

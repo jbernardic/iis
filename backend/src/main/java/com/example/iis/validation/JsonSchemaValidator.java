@@ -14,10 +14,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Validates a JSON order document against {@code schema/order-schema.json}
- * (JSON Schema draft 2020-12) for Part 1.
- */
 @Component
 public class JsonSchemaValidator {
 
@@ -36,7 +32,6 @@ public class JsonSchemaValidator {
         }
     }
 
-    /** Returns the list of validation problems (empty = valid). */
     public List<String> validate(byte[] json) {
         JsonNode node;
         try {

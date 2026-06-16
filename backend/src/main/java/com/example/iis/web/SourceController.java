@@ -6,10 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * Reports which order source is active (the Part 5 public/custom switch), so
- * the client can show it in the UI.
- */
 @RestController
 public class SourceController {
 

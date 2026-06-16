@@ -13,12 +13,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-/**
- * Issues and verifies the access and refresh JWTs used by the custom REST API
- * and GraphQL (Part 5). Tokens are signed with an HMAC-SHA key derived from
- * {@code app.jwt.secret} and carry the user's role plus a {@code type} claim
- * ({@code access} or {@code refresh}).
- */
 @Service
 public class JwtService {
 

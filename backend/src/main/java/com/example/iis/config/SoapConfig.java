@@ -11,13 +11,6 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
-/**
- * Spring Web Services (Part 2). Registers the SOAP servlet at {@code /ws/*},
- * exposes a generated WSDL at {@code /ws/orders.wsdl} and binds it to the
- * {@code orders-soap.xsd} contract. Endpoint payloads are bound by JAXB through
- * the {@code @XmlRootElement} request/response classes (the default Spring-WS
- * JAXB method processors), so no explicit marshaller bean is required.
- */
 @EnableWs
 @Configuration
 public class SoapConfig {

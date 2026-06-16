@@ -7,10 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/**
- * Application user used for JWT authentication. Two roles are seeded:
- * {@code FULL} (full access) and {@code READ} (read-only).
- */
 @Entity
 @Table(name = "users")
 public class UserAccount {
@@ -25,7 +21,6 @@ public class UserAccount {
     @Column(nullable = false)
     private String password;
 
-    /** Either {@code FULL} or {@code READ} (stored without the ROLE_ prefix). */
     @Column(nullable = false)
     private String role;
 

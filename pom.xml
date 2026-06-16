@@ -21,7 +21,6 @@
     <properties>
         <java.version>26</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Pinned to match the committed gRPC stubs -->
         <grpc.version>1.80.0</grpc.version>
         <protobuf.version>4.34.2</protobuf.version>
         <jjwt.version>0.12.6</jjwt.version>

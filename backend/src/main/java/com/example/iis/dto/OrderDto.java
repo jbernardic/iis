@@ -11,16 +11,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Canonical order representation used for:
- * <ul>
- *   <li>XML import / generation via JAXB ({@code <order>} root element),</li>
- *   <li>JSON import via Jackson,</li>
- *   <li>the custom REST API and GraphQL responses.</li>
- * </ul>
- * The same field names are described by {@code order.xsd} and
- * {@code order-schema.json} so a single document validates against both.
- */
 @XmlRootElement(name = "order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"id", "number", "status", "currency", "total",

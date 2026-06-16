@@ -2,15 +2,9 @@ package com.example.iis.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Strongly-typed view of the {@code app.*} configuration. Drives the JWT
- * settings, the gRPC port, the DHMZ URL, the prepared-XML location, the
- * WooCommerce credentials, and the public/custom order-source switch (Part 5).
- */
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
 
-    /** {@code custom} = local database, {@code woocommerce} = public REST API. */
     private String orderSource = "custom";
 
     private final Jwt jwt = new Jwt();
@@ -48,7 +42,6 @@ public class AppProperties {
     }
 
     public static class Jwt {
-        /** Base64-encoded HMAC secret (>= 32 bytes for HS256). */
         private String secret;
         private int accessTokenTtlMinutes = 15;
         private int refreshTokenTtlDays = 7;
@@ -103,7 +96,6 @@ public class AppProperties {
     }
 
     public static class Xml {
-        /** Where the prepared {@code <orders>} file (Parts 2 & 3) is written. */
         private String ordersFile = "data/orders-data.xml";
 
         public String getOrdersFile() {

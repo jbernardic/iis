@@ -20,14 +20,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Order source that proxies the public WooCommerce REST API (endpoint #99,
- * orders) using Consumer Key + Consumer Secret HTTP Basic authentication.
- * Active when {@code app.order-source=woocommerce}.
- *
- * <p>JSON is handled with a private Jackson 2 mapper and exchanged as String
- * bodies, so it is independent of the Jackson 3 converters Spring Boot 4 uses.
- */
 @Component
 @ConditionalOnProperty(name = "app.order-source", havingValue = "woocommerce")
 public class WooCommerceOrderSource implements OrderSource {
@@ -108,8 +100,6 @@ public class WooCommerceOrderSource implements OrderSource {
         return "woocommerce (public REST API)";
     }
 
-    // --- JSON helpers ----------------------------------------------------
-
     private JsonNode readTree(String json) {
         if (json == null || json.isBlank()) {
             return null;
@@ -128,8 +118,6 @@ public class WooCommerceOrderSource implements OrderSource {
             throw new IllegalStateException("Could not serialize order payload: " + e.getMessage(), e);
         }
     }
-
-    // --- mapping helpers -------------------------------------------------
 
     private OrderDto fromWoo(JsonNode n) {
         OrderDto dto = new OrderDto();

@@ -21,16 +21,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Part 2: filters the prepared {@code <orders>} XML file with XPath, returning
- * only the orders whose number/status/currency/customer/email/city/product name
- * contains the given term (case-insensitive, diacritics-aware).
- */
 @Service
 public class OrderSearchService {
 
-    // translate() maps these uppercase characters to lowercase so the match is
-    // case-insensitive in XPath 1.0 (which has no lower-case() function).
     private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZČĆŽŠĐ";
     private static final String LOWER = "abcdefghijklmnopqrstuvwxyzčćžšđ";
 
@@ -82,7 +75,6 @@ public class OrderSearchService {
     private static Document parse(Path xmlFile) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
-        // Harden against XXE.
         dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         dbf.setExpandEntityReferences(false);
         try (InputStream in = Files.newInputStream(xmlFile)) {
@@ -90,7 +82,6 @@ public class OrderSearchService {
         }
     }
 
-    /** First direct child element with the given tag, or empty string. */
     private static String text(Element parent, String tag) {
         Element child = directChild(parent, tag);
         return child == null ? "" : child.getTextContent().trim();

@@ -1,4 +1,3 @@
-# GraphQL schema for the custom orders API (Part 5).
 
 type Query {
     "All orders from the active source."

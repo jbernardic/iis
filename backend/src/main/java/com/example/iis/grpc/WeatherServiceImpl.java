@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
-/**
- * gRPC implementation of the weather service (Part 4). Returns the current
- * temperature for every DHMZ city whose name contains the requested query.
- */
 @Component
 public class WeatherServiceImpl extends WeatherServiceGrpc.WeatherServiceImplBase {
 

@@ -1,6 +1,5 @@
 package com.example.client.model;
 
-/** Aggregate Part 1 import response (xml + json results). */
 public class ImportResponseView {
 
     private FileResultView xml;

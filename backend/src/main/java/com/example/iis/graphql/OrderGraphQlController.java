@@ -10,11 +10,6 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-/**
- * Part 5 GraphQL API over the same {@link OrderService}. Queries are available
- * to any authenticated user; mutations require the full-access role
- * ({@code @PreAuthorize}), matching the REST authorization rules.
- */
 @Controller
 public class OrderGraphQlController {
 

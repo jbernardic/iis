@@ -11,11 +11,6 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import java.nio.file.Path;
 import java.util.List;
 
-/**
- * Part 2 SOAP endpoint. For each request it (1) regenerates the prepared XML
- * file from current order data, then (2) filters it with XPath by the supplied
- * term and returns the matches.
- */
 @Endpoint
 public class OrdersEndpoint {
 

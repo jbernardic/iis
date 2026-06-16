@@ -16,7 +16,6 @@
     <description>IIS backend: REST + SOAP + gRPC + GraphQL + JWT for WooCommerce orders</description>
 
     <dependencies>
-        <!-- Spring Boot starters (versions managed by the parent BOM) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -42,14 +41,12 @@
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
 
-        <!-- Shared gRPC stubs -->
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>proto</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!-- JWT (access + refresh tokens) -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -68,14 +65,12 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- JSON Schema validation (Part 1) -->
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
             <version>${networknt.version}</version>
         </dependency>
 
-        <!-- JAXB: XML (un)marshalling + generation (Parts 2 & 3) -->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
@@ -85,7 +80,6 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
 
-        <!-- Spring-WS dynamic WSDL generation (Part 2) -->
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>

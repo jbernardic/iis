@@ -1,6 +1,5 @@
 package com.example.client.model;
 
-/** Client-side billing model (display + form binding). */
 public class BillingView {
 
     private String firstName;

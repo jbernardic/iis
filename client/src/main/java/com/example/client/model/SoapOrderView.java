@@ -1,6 +1,5 @@
 package com.example.client.model;
 
-/** One row of the SOAP search result (Part 2). */
 public class SoapOrderView {
 
     private String number;

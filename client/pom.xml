@@ -33,14 +33,12 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
 
-        <!-- gRPC client stubs to reach the backend weather service -->
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>proto</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Spring's MultipartBodyBuilder references org.reactivestreams.Publisher -->
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams</artifactId>

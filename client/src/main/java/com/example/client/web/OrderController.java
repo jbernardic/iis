@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * Part 5 / Part 6: the orders screen. Listing is available to both roles;
- * create/update/delete are POSTs and therefore restricted to full access by
- * {@link com.example.client.config.WebSecurityConfig}.
- */
 @Controller
 @RequestMapping("/orders")
 public class OrderController {

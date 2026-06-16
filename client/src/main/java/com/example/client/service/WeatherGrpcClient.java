@@ -15,10 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * gRPC client (Part 4): calls the backend weather service over a plaintext
- * channel and adapts the reply to {@link WeatherRow}s for the UI.
- */
 @Service
 public class WeatherGrpcClient {
 

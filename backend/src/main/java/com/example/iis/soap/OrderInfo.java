@@ -4,9 +4,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlType;
 
-/**
- * A single order returned by the SOAP search (Part 2).
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrderInfo", propOrder = {"number", "status", "currency", "total",
         "customerName", "email", "city"})

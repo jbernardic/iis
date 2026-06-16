@@ -13,11 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * Authenticates the web client's users against the backend's JWT login. On
- * success it stores the token pair in the {@link UserSession} and grants the
- * matching role authority ({@code ROLE_FULL} / {@code ROLE_READ}).
- */
 @Component
 public class BackendAuthenticationProvider implements AuthenticationProvider {
 

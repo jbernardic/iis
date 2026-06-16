@@ -1,6 +1,5 @@
 package com.example.client.model;
 
-/** One row of the gRPC weather result (Part 4). */
 public class WeatherRow {
 
     private final String city;

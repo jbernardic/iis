@@ -15,10 +15,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A WooCommerce-style order persisted in the application database.
- * This is the central domain entity for endpoint #99 (orders).
- */
 @Entity
 @Table(name = "orders")
 public class OrderEntity {

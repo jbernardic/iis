@@ -11,10 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Custom order source backed by the application's own H2 database. Active when
- * {@code app.order-source=custom} (the default).
- */
 @Component
 @ConditionalOnProperty(name = "app.order-source", havingValue = "custom", matchIfMissing = true)
 public class DbOrderSource implements OrderSource {

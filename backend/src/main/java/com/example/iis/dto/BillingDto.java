@@ -4,10 +4,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlType;
 
-/**
- * Billing block shared by the XML (JAXB) and JSON (Jackson) representations of
- * an order.
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"firstName", "lastName", "email", "phone", "city", "country"})
 public class BillingDto {

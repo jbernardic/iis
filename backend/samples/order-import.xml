@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Example order for:  POST /api/import/orders   (multipart form field "xml")
+  Validated against:  backend/src/main/resources/schema/order.xsd
+  Notes:
+    - Root element is <order> (a single order), no XML namespace.
+    - Element order must follow the XSD sequence.
+    - <id> is omitted on purpose: imports create a NEW order.
+-->
+<order>
+    <number>WC-1001</number>
+    <status>processing</status>
+    <currency>EUR</currency>
+    <total>698.00</total>
+    <customerNote>Please deliver after 17:00.</customerNote>
+    <dateCreated>2026-06-18T10:30:00+02:00</dateCreated>
+    <billing>
+        <firstName>Ivan</firstName>
+        <lastName>Horvat</lastName>
+        <email>ivan.horvat@example.com</email>
+        <phone>+385911234567</phone>
+        <city>Zagreb</city>
+        <country>HR</country>
+    </billing>
+    <lineItems>
+        <lineItem>
+            <productId>10</productId>
+            <name>Wireless Mouse</name>
+            <quantity>1</quantity>
+            <price>199.00</price>
+            <subtotal>199.00</subtotal>
+        </lineItem>
+        <lineItem>
+            <productId>11</productId>
+            <name>Mechanical Keyboard</name>
+            <quantity>1</quantity>
+            <price>499.00</price>
+            <subtotal>499.00</subtotal>
+        </lineItem>
+    </lineItems>
+</order>

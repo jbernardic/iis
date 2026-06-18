@@ -1,0 +1,32 @@
+{
+  "number": "WC-1002",
+  "status": "processing",
+  "currency": "EUR",
+  "total": 698.00,
+  "customerNote": "Please deliver after 17:00.",
+  "dateCreated": "2026-06-18T10:30:00+02:00",
+  "billing": {
+    "firstName": "Ivan",
+    "lastName": "Horvat",
+    "email": "ivan.horvat@example.com",
+    "phone": "+385911234567",
+    "city": "Zagreb",
+    "country": "HR"
+  },
+  "lineItems": [
+    {
+      "productId": 10,
+      "name": "Wireless Mouse",
+      "quantity": 1,
+      "price": 199.00,
+      "subtotal": 199.00
+    },
+    {
+      "productId": 11,
+      "name": "Mechanical Keyboard",
+      "quantity": 1,
+      "price": 499.00,
+      "subtotal": 499.00
+    }
+  ]
+}

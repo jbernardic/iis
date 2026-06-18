@@ -1,0 +1,300 @@
+{
+  "info": {
+    "_postman_id": "b7e1a2c4-9f3d-4a8e-bd21-1a2b3c4d5e6f",
+    "name": "IIS Backend API",
+    "description": "REST API for the IIS backend (Spring Boot, port 8080).\n\n## Quick start\n1. Import this collection into Postman.\n2. Run **Auth > Login** once — it stores `accessToken` + `refreshToken` as collection variables. (A collection-level pre-request script also auto-logs-in if no token is present, so most requests work immediately after import.)\n3. Call any other request; the collection sends `Authorization: Bearer {{accessToken}}` automatically.\n\n## Users (seeded by DataSeeder)\n| username | password  | role | access |\n|----------|-----------|------|--------|\n| admin    | admin123  | FULL | read + write (orders, import) |\n| reader   | reader123 | READ | read-only (GET) |\n\nSwitch user by editing the `username` / `password` collection variables, then re-run Login.\n\n## Variables\n- `baseUrl` – backend base URL (default http://localhost:8080)\n- `username`, `password` – credentials used by Login + auto-login\n- `accessToken`, `refreshToken` – filled in by Login/Refresh\n- `orderId` – filled in by **Create order**, used by Get/Update/Delete by id",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{accessToken}}", "type": "string" }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-login: if no access token is stored yet, log in and cache the tokens.",
+          "// pm.sendRequest does NOT trigger collection scripts, so there is no recursion.",
+          "if (!pm.collectionVariables.get('accessToken')) {",
+          "    const base = pm.collectionVariables.get('baseUrl');",
+          "    pm.sendRequest({",
+          "        url: base + '/api/auth/login',",
+          "        method: 'POST',",
+          "        header: { 'Content-Type': 'application/json' },",
+          "        body: { mode: 'raw', raw: JSON.stringify({",
+          "            username: pm.collectionVariables.get('username'),",
+          "            password: pm.collectionVariables.get('password')",
+          "        }) }",
+          "    }, function (err, res) {",
+          "        if (!err && res && res.code === 200) {",
+          "            const j = res.json();",
+          "            pm.collectionVariables.set('accessToken', j.accessToken);",
+          "            pm.collectionVariables.set('refreshToken', j.refreshToken);",
+          "        }",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080", "type": "string" },
+    { "key": "username", "value": "admin", "type": "string" },
+    { "key": "password", "value": "admin123", "type": "string" },
+    { "key": "accessToken", "value": "", "type": "string" },
+    { "key": "refreshToken", "value": "", "type": "string" },
+    { "key": "orderId", "value": "1", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', j.accessToken);",
+                  "pm.collectionVariables.set('refreshToken', j.refreshToken);",
+                  "pm.test('got access token', () => pm.expect(j.accessToken).to.be.a('string').and.not.empty);",
+                  "console.log('Logged in as role:', j.role);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "auth", "login" ]
+            },
+            "description": "Authenticate and receive access + refresh JWTs. Public endpoint. Stores both tokens as collection variables."
+          }
+        },
+        {
+          "name": "Refresh token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', j.accessToken);",
+                  "pm.collectionVariables.set('refreshToken', j.refreshToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "auth", "refresh" ]
+            },
+            "description": "Exchange a valid refresh token for a new access + refresh token pair. Public endpoint."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Source",
+      "item": [
+        {
+          "name": "Active order source",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/source",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "source" ]
+            },
+            "description": "Returns the active order source, e.g. {\"source\":\"custom\"} or {\"source\":\"woocommerce\"}. Requires READ or FULL."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "List orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "orders" ]
+            },
+            "description": "List all orders from the active source. Requires READ or FULL."
+          }
+        },
+        {
+          "name": "Get order by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "orders", "{{orderId}}" ]
+            },
+            "description": "Fetch a single order by id (404 if not found). Requires READ or FULL."
+          }
+        },
+        {
+          "name": "Create order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "const j = pm.response.json();",
+                  "if (j && j.id) { pm.collectionVariables.set('orderId', j.id); console.log('Created order id:', j.id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"PM-1001\",\n  \"status\": \"processing\",\n  \"currency\": \"EUR\",\n  \"total\": 698.00,\n  \"customerNote\": \"Created from Postman\",\n  \"billing\": {\n    \"firstName\": \"Ivan\",\n    \"lastName\": \"Horvat\",\n    \"email\": \"ivan.horvat@example.com\",\n    \"phone\": \"+385911234567\",\n    \"city\": \"Zagreb\",\n    \"country\": \"HR\"\n  },\n  \"lineItems\": [\n    { \"productId\": 10, \"name\": \"Wireless Mouse\", \"quantity\": 1, \"price\": 199.00, \"subtotal\": 199.00 },\n    { \"productId\": 11, \"name\": \"Mechanical Keyboard\", \"quantity\": 1, \"price\": 499.00, \"subtotal\": 499.00 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "orders" ]
+            },
+            "description": "Create a new order (OrderDto). Returns 201 with the created order. Stores its id in {{orderId}}. Requires FULL."
+          }
+        },
+        {
+          "name": "Update order",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"PM-1001\",\n  \"status\": \"completed\",\n  \"currency\": \"EUR\",\n  \"total\": 698.00,\n  \"customerNote\": \"Updated from Postman\",\n  \"billing\": {\n    \"firstName\": \"Ivan\",\n    \"lastName\": \"Horvat\",\n    \"email\": \"ivan.horvat@example.com\",\n    \"phone\": \"+385911234567\",\n    \"city\": \"Zagreb\",\n    \"country\": \"HR\"\n  },\n  \"lineItems\": [\n    { \"productId\": 10, \"name\": \"Wireless Mouse\", \"quantity\": 1, \"price\": 199.00, \"subtotal\": 199.00 },\n    { \"productId\": 11, \"name\": \"Mechanical Keyboard\", \"quantity\": 1, \"price\": 499.00, \"subtotal\": 499.00 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "orders", "{{orderId}}" ]
+            },
+            "description": "Replace an existing order by id (404 if not found). Requires FULL."
+          }
+        },
+        {
+          "name": "Delete order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "orders", "{{orderId}}" ]
+            },
+            "description": "Delete an order by id. Returns 204 on success, 404 if not found. Requires FULL."
+          }
+        }
+      ]
+    },
+    {
+      "name": "XML",
+      "item": [
+        {
+          "name": "Generated orders XML",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Accept", "value": "application/xml" } ],
+            "url": {
+              "raw": "{{baseUrl}}/api/xml/orders",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "xml", "orders" ]
+            },
+            "description": "Regenerates orders-data.xml from the current orders and returns it as application/xml. Requires READ or FULL."
+          }
+        },
+        {
+          "name": "Validate generated XML",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/xml/validate",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "xml", "validate" ]
+            },
+            "description": "Validates the generated orders XML against order.xsd. Returns {\"valid\":true|false,\"messages\":[...]}. Requires READ or FULL."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Import",
+      "item": [
+        {
+          "name": "Import orders (XML + JSON)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "xml",
+                  "type": "file",
+                  "src": "C:/Users/janux/IdeaProjects/iis/backend/samples/order-import.xml",
+                  "description": "Single <order> document, validated against order.xsd"
+                },
+                {
+                  "key": "json",
+                  "type": "file",
+                  "src": "C:/Users/janux/IdeaProjects/iis/backend/samples/order-import.json",
+                  "description": "Single order object, validated against order-schema.json"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/import/orders",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "import", "orders" ]
+            },
+            "description": "Multipart upload. Provide at least one of the file fields `xml` and/or `json`. Each is schema-validated, and valid documents are persisted. Returns per-file results plus `allValid` (200 if all valid, 422 otherwise). Requires FULL.\n\nNote: Postman cannot embed file contents, so the file paths point at backend/samples/. If your machine differs, re-select the files in the Body tab."
+          }
+        }
+      ]
+    }
+  ]
+}

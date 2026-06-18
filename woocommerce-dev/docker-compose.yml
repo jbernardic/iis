@@ -1,0 +1,104 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: wc-db
+    restart: unless-stopped
+    command: ['--default-authentication-plugin=mysql_native_password']
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-uroot', '-prootpass']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wc-wordpress
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '8090:80'
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+      # Lets WooCommerce accept HTTP Basic Auth on this non-SSL dev site.
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
+
+  # One-shot installer: sets up WordPress core + WooCommerce, then exits.
+  wpcli:
+    image: wordpress:cli
+    container_name: wc-wpcli
+    user: '33:33'
+    depends_on:
+      wordpress:
+        condition: service_started
+      db:
+        condition: service_healthy
+    entrypoint: ['sh', '-c']
+    environment:
+      # wp-config.php resolves these via getenv() at runtime; without them
+      # wp-cli falls back to host "mysql" with an empty password and hangs.
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+      - ./scripts:/scripts
+    command:
+      - |
+        set -e
+        echo "Waiting for WordPress files..."
+        until [ -f wp-config.php ]; do sleep 3; done
+        echo "Waiting for database..."
+        # --skip-ssl: the MariaDB client rejects MySQL 8's self-signed TLS cert
+        # ("certificate is NOT trusted"); the install steps use PHP mysqli, which connects fine.
+        until wp db check --skip-ssl >/dev/null 2>&1; do sleep 3; done
+
+        if ! wp core is-installed >/dev/null 2>&1; then
+          echo "Installing WordPress core..."
+          wp core install \
+            --url="http://localhost:8090" \
+            --title="IIS Dev Store" \
+            --admin_user=admin \
+            --admin_password=admin123 \
+            --admin_email=admin@example.com \
+            --skip-email
+        fi
+
+        # Pretty permalinks are required for /wp-json/... routes.
+        wp rewrite structure '/%postname%/' --hard
+
+        wp plugin is-active woocommerce >/dev/null 2>&1 || wp plugin install woocommerce --activate
+
+        wp option update woocommerce_currency EUR
+        wp option update woocommerce_store_address "Trg bana Jelacica 1"
+        wp option update woocommerce_default_country "HR:*"
+
+        if [ "$$(wp post list --post_type=product --format=count)" = "0" ]; then
+          echo "Creating sample products..."
+          wp wc product create --user=admin --name="Wireless Mouse"      --type=simple --regular_price=199.00
+          wp wc product create --user=admin --name="Mechanical Keyboard" --type=simple --regular_price=499.00
+        fi
+
+        echo "================================================================"
+        echo " WordPress + WooCommerce ready:  http://localhost:8090"
+        echo " Admin:  http://localhost:8090/wp-admin  (admin / admin123)"
+        echo " Next:   generate REST keys (see README.md)"
+        echo "================================================================"
+
+volumes:
+  db_data:
+  wp_data:
